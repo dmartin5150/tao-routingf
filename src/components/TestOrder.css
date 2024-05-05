@@ -1,0 +1,55 @@
+.testorder {
+    border: 2px solid black;
+    padding: 2rem;
+    margin: 0 2rem;
+    max-width: 80vw;
+
+
+    .testorder-header {
+        position: relative;
+        h3 {
+            position:absolute;
+            left: 0rem;
+            top: -4rem;
+            background-color: white;
+            padding: 0 0.5rem;
+            font-style: italic;
+
+        }
+    }
+
+    .testOrder-panel {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        color: blue;
+        .testOrder-panel--result {
+            display:flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content:center;
+
+
+            label {
+                font-weight:bold;
+                margin:0.1rem 0;
+            }
+
+            .testOrder-panel--result-label {
+                height:2rem;
+                text-align: center; 
+                border: 2px solid black;
+                padding: 0 1.5rem;
+                display:flex;
+                align-items: center;
+                justify-content: center;
+                min-width: 10rem;
+            }
+
+
+        }
+
+    }
+
+}
