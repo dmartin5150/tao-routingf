@@ -3,7 +3,7 @@ import { DropDown } from "../../App";
 
 
 const getDropDowns = async ()=> {
-      const response = await fetch("http://localhost:5001/alloptions", {
+      const response = await fetch("http://localhost:5001/dropdowns", {
         method:'GET',
         headers: {
           'Content-Type': 'application/json'
