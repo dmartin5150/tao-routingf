@@ -6,6 +6,7 @@ import './TAOSelector.css';
 export type SelectOptions = {
     label: string;
     value: string;
+    superset?:string;
 }
 
 
