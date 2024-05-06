@@ -3,8 +3,17 @@ import './App.css';
 import { SelectOptions } from './components/TAOSelector';
 import TestOrder from './components/TestOrder';
 import getDropDowns from './utilities/fetchdata/getDropdowns';
+import getTestOrder from './utilities/fetchdata/getTestOrder';
 import { SingleValue}  from 'react-select';
+import { SampleOrder } from './components/TestOrder';
 
+
+enum Selectors {
+  DEPARTMENT = 1,
+  PROVIDER = 2,
+  GENUS =  3,
+  ORDERTYPE = 4
+}
 
 export type DropDown = {
   name: "Department" | "Provider" | "Genus" | "OrderType"
@@ -33,6 +42,8 @@ function App() {
 
   const [dropDowns, setDropDowns] = useState<DropDown[]>(defaultDropDowns)
   const [initOrderTypes, setInitOrderTypes]= useState<SelectOptions[]>([])
+  const [sampleOrder, setSampleOrder] = useState<SampleOrder>({'dept':'0','provider':'0','genus':'0', 'orderType':'0'})
+  const [assignedBucket, setAssignedBucket] = useState<string>('None')
 
   useEffect(() => {
 
@@ -48,30 +59,64 @@ function App() {
       }
     }
     initialize_dropdowns()
-  }, [])
+  }, []);
 
-  const handleDepartmentsChanged = (id:number, newValue: SingleValue<SelectOptions>) => {
-    console.log('filter ID', id, 'new value', newValue);
-    if (id === 3) {
-      const newDropDowns = [...dropDowns]
+  const checkSampleOrder = async() => {
+    try {
+      const bucket = await getTestOrder(sampleOrder);
+      setAssignedBucket(bucket[0])
+      console.log(bucket[0])
+    } catch(err) {
+      alert(err)
+    }
+  }
 
-        const orderIndex = dropDowns.findIndex((order) => order.name === 'OrderType');
-      if (orderIndex !== -1) {
-        if (newValue?.label === 'All') {
-          newDropDowns[orderIndex].options = initOrderTypes;
-        } else {
-          const filteredOrderTypes = initOrderTypes.filter((option) => option.superset! == newValue?.label)
-          newDropDowns[orderIndex].options = filteredOrderTypes;
-        }
-        setDropDowns(newDropDowns);
+  useEffect(()=> {
+    checkSampleOrder();
+  }, [sampleOrder])
+
+
+
+  const updateDropDown = (newValue:SingleValue<SelectOptions>) => {
+    const newDropDowns = [...dropDowns]
+    const orderIndex = dropDowns.findIndex((order) => order.name === 'OrderType');
+    if (orderIndex !== -1) {
+      if (newValue?.label === 'All') {
+        newDropDowns[orderIndex].options = initOrderTypes;
+      } else {
+        const filteredOrderTypes = initOrderTypes.filter((option) => option.superset! == newValue?.label)
+        newDropDowns[orderIndex].options = filteredOrderTypes;
       }
+      setDropDowns(newDropDowns);
     }
   }
 
 
-  useEffect(() => {
-    console.log('dropdowns', dropDowns)
-  },[dropDowns])
+  const handleDepartmentsChanged = (id:number, newValue: SingleValue<SelectOptions>) => {
+    console.log('filter ID', id, 'new value', newValue);
+
+    if (id === Selectors.GENUS) {
+      updateDropDown(newValue);
+    }
+    let curOrder = {...sampleOrder}
+    if (id === Selectors.DEPARTMENT) {
+      curOrder.dept = newValue!.value.toString()
+    } 
+    if (id === Selectors.PROVIDER) {
+      curOrder.provider = newValue!.value.toString()
+    } 
+    if (id === Selectors.GENUS) {
+      curOrder.genus = newValue!.value.toString()
+    } 
+    if (id === Selectors.ORDERTYPE) {
+      curOrder.orderType = newValue!.value.toString()
+    }
+    setSampleOrder(curOrder);
+  }
+
+
+
+
 
 
   return (
@@ -85,6 +130,7 @@ function App() {
             name={"Departments"}
             isDisabled={false}
             dropDowns={dropDowns}
+            assignedBucket={assignedBucket}
             onResultsChanged={handleDepartmentsChanged}
          />
         </div>

@@ -6,7 +6,12 @@ import { DropDown } from "../App";
 import "./TestOrder.css"
 
 
-
+export type SampleOrder = {
+    dept: string;
+    provider: string;
+    genus: string;
+    orderType:string;
+}
 
   
   interface TestOrderProps {
@@ -14,12 +19,13 @@ import "./TestOrder.css"
     name:string;
     isDisabled:boolean;
     dropDowns: DropDown[]
+    assignedBucket:string;
     onResultsChanged: (id:number, newValue: SingleValue<SelectOptions>) => void;
 }
 
 
 
-const TestOrder: FC<TestOrderProps> = ({id, name, isDisabled, dropDowns, onResultsChanged}) => {
+const TestOrder: FC<TestOrderProps> = ({id, name, isDisabled,assignedBucket, dropDowns, onResultsChanged}) => {
     const providerDropDowns = dropDowns.filter((dropDown) => dropDown.name === 'Provider');
     const deparmentDropDowns = dropDowns.filter((dropDown) => dropDown.name === 'Department');
     const genusDropDowns = dropDowns.filter((dropDown) => dropDown.name === 'Genus');
@@ -65,7 +71,7 @@ const TestOrder: FC<TestOrderProps> = ({id, name, isDisabled, dropDowns, onResul
                 />
                 <div className='testOrder-panel--result'>
                     <label>Result</label>
-                    <label className='testOrder-panel--result-label'>Current Result</label>
+                    <label className='testOrder-panel--result-label'>{assignedBucket}</label>
                 </div>
             </div>
         </div>
