@@ -12,12 +12,12 @@ interface OrderSelectorProps {
     name:string;
     isDisabled:boolean;
     options: SelectOptions[];
-    onResultsChanged: (id:number, value:string) => void;
+    onResultsChanged: (id:number, newValue: SingleValue<SelectOptions>) => void;
 }
 
 const OrderSelector: FC<OrderSelectorProps> = ({id, name, isDisabled, options,onResultsChanged}) => {
 
-    const [selectedValue, setSelectedValue] = useState<SingleValue<SelectOptions>>();
+    const [selectedValue, setSelectedValue] = useState<SingleValue<SelectOptions>>({'label':'All', 'value': '0'});
     const [filterId, setFilterId] = useState<number>(0);
 
 
@@ -30,8 +30,7 @@ const OrderSelector: FC<OrderSelectorProps> = ({id, name, isDisabled, options,on
     const handleChange = (newValue: SingleValue<SelectOptions>, actionMeta: ActionMeta<SelectOptions>) => {
         if(filterId !== 0) {
             setSelectedValue(newValue);
-            console.log(newValue)
-            // onResultsChanged(filterId, newValue);
+            onResultsChanged(filterId, newValue);
         }
     };
 

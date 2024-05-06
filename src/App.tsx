@@ -1,11 +1,9 @@
-import React, {useState, useEffect} from 'react';
+import  {useState, useEffect} from 'react';
 import './App.css';
-import TAOSelector from './components/TAOSelector';
 import { SelectOptions } from './components/TAOSelector';
-import OrderSelector from './components/OrderSelector';
 import TestOrder from './components/TestOrder';
 import getDropDowns from './utilities/fetchdata/getDropdowns';
-
+import { SingleValue}  from 'react-select';
 
 
 export type DropDown = {
@@ -15,16 +13,9 @@ export type DropDown = {
 
 
 
-
-
 const department_options:SelectOptions[] = []
-
-
 const provider_options:SelectOptions[] = []
-
-
 const genus_options:SelectOptions[] = []
-
 const orderType_options:SelectOptions[] = []
 
 
@@ -36,21 +27,22 @@ const defaultDropDowns:DropDown[] = [
 ]
 
 
-const handleDepartmentsChanged = () => {
-  console.log('Department Changed')
-}
+
 
 function App() {
 
   const [dropDowns, setDropDowns] = useState<DropDown[]>(defaultDropDowns)
+  const [initOrderTypes, setInitOrderTypes]= useState<SelectOptions[]>([])
 
   useEffect(() => {
 
     const initialize_dropdowns = async () => {
       try {
-        const init_dropdowns = await getDropDowns();
-        setDropDowns(init_dropdowns)
-        console.log(init_dropdowns)
+        const init_dropDowns = await getDropDowns();
+        setDropDowns(init_dropDowns)
+        const orderTypeDropDowns = init_dropDowns.filter((dropDown) => dropDown.name === 'OrderType');
+        console.log('initi order types', orderTypeDropDowns)
+        setInitOrderTypes(orderTypeDropDowns[0].options)
       } catch(err) {
         alert(err)
       }
@@ -58,7 +50,28 @@ function App() {
     initialize_dropdowns()
   }, [])
 
+  const handleDepartmentsChanged = (id:number, newValue: SingleValue<SelectOptions>) => {
+    console.log('filter ID', id, 'new value', newValue);
+    if (id === 3) {
+      const newDropDowns = [...dropDowns]
 
+        const orderIndex = dropDowns.findIndex((order) => order.name === 'OrderType');
+      if (orderIndex !== -1) {
+        if (newValue?.label === 'All') {
+          newDropDowns[orderIndex].options = initOrderTypes;
+        } else {
+          const filteredOrderTypes = initOrderTypes.filter((option) => option.superset! == newValue?.label)
+          newDropDowns[orderIndex].options = filteredOrderTypes;
+        }
+        setDropDowns(newDropDowns);
+      }
+    }
+  }
+
+
+  useEffect(() => {
+    console.log('dropdowns', dropDowns)
+  },[dropDowns])
 
 
   return (

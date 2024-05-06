@@ -1,4 +1,5 @@
-import React, {FC} from "react";
+import React, {FC, useEffect, useState} from "react";
+import  { SingleValue}  from 'react-select';
 import OrderSelector from "./OrderSelector";
 import { SelectOptions } from "./TAOSelector";
 import { DropDown } from "../App";
@@ -13,16 +14,21 @@ import "./TestOrder.css"
     name:string;
     isDisabled:boolean;
     dropDowns: DropDown[]
-    onResultsChanged: (id:number, value:string) => void;
+    onResultsChanged: (id:number, newValue: SingleValue<SelectOptions>) => void;
 }
 
 
 
 const TestOrder: FC<TestOrderProps> = ({id, name, isDisabled, dropDowns, onResultsChanged}) => {
-    const providerDropDowns = dropDowns.filter((dropDown) => dropDown.name === 'Provider')
-    const deparmentDropDowns = dropDowns.filter((dropDown) => dropDown.name === 'Department')
-    const genusDropDowns = dropDowns.filter((dropDown) => dropDown.name === 'Genus')
-    const orderTypeDropDowns = dropDowns.filter((dropDown) => dropDown.name === 'OrderType')
+    const providerDropDowns = dropDowns.filter((dropDown) => dropDown.name === 'Provider');
+    const deparmentDropDowns = dropDowns.filter((dropDown) => dropDown.name === 'Department');
+    const genusDropDowns = dropDowns.filter((dropDown) => dropDown.name === 'Genus');
+    const orderTypeDropDowns = dropDowns.filter((dropDown) => dropDown.name === 'OrderType');
+
+
+    const [orderType, setOrderType] = useState<DropDown[]>(orderTypeDropDowns);
+
+  
     return(
         <div className='testorder'>
             <div className='testorder-header'>
@@ -44,14 +50,14 @@ const TestOrder: FC<TestOrderProps> = ({id, name, isDisabled, dropDowns, onResul
                     onResultsChanged={onResultsChanged}
                 />
                 <OrderSelector
-                    id={2}
+                    id={3}
                     name={"Genus"}
                     isDisabled={false}
                     options={genusDropDowns[0].options}
                     onResultsChanged={onResultsChanged}
                 />
                 <OrderSelector
-                    id={2}
+                    id={4}
                     name={"Order Type"}
                     isDisabled={false}
                     options={orderTypeDropDowns[0].options}
