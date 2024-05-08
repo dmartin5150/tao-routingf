@@ -85,7 +85,20 @@ function App() {
   }
 
   useEffect(()=> {
+
+    const updateResults = async () => {
+      try {
+        const bucket = await getTestOrder(sampleOrder);
+        console.log('results =', bucket);
+        setTAOResults(bucket)
+        console.log('updated results', bucket)
+      } catch(err) {
+        alert(err)
+      }
+    }
+    updateResults();
     checkSampleOrder();
+
   }, [sampleOrder])
 
 

@@ -22,7 +22,7 @@ interface TAOTableProps  {
 
 
 const  TAOTable: FC<TAOTableProps> = ({tableData}) =>  {
-  const data = React.useMemo(() => tableData, []);
+  const data = tableData;
   const columns  = React.useMemo(
     () => [
     {Header: "Edit",
