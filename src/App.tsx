@@ -6,6 +6,7 @@ import getDropDowns from './utilities/fetchdata/getDropdowns';
 import getTestOrder from './utilities/fetchdata/getTestOrder';
 import { SingleValue}  from 'react-select';
 import { SampleOrder } from './components/TestOrder';
+import TAOTable from './components/TAOTable';
 
 
 enum Selectors {
@@ -13,6 +14,16 @@ enum Selectors {
   PROVIDER = 2,
   GENUS =  3,
   ORDERTYPE = 4
+}
+
+export type TAOOrder = {
+  taoId: string;
+  dept: string;
+  provider: string;
+  genus: string;
+  orderType: string;
+  priority: string;
+  bucket:string;
 }
 
 export type DropDown = {
@@ -44,6 +55,7 @@ function App() {
   const [initOrderTypes, setInitOrderTypes]= useState<SelectOptions[]>([])
   const [sampleOrder, setSampleOrder] = useState<SampleOrder>({'dept':'0','provider':'0','genus':'0', 'orderType':'0'})
   const [assignedBucket, setAssignedBucket] = useState<string>('None')
+  const [TAOResults, setTAOResults] = useState<TAOOrder[]>([])
 
   useEffect(() => {
 
@@ -64,8 +76,9 @@ function App() {
   const checkSampleOrder = async() => {
     try {
       const bucket = await getTestOrder(sampleOrder);
-      setAssignedBucket(bucket[0])
-      console.log(bucket[0])
+      setAssignedBucket(bucket[0]['bucket'])
+      setTAOResults(bucket)
+      console.log(bucket)
     } catch(err) {
       alert(err)
     }
@@ -134,6 +147,7 @@ function App() {
             onResultsChanged={handleDepartmentsChanged}
          />
         </div>
+        {TAOResults.length !==0  && <TAOTable tableData={TAOResults} />}
     </div>
   );
 }

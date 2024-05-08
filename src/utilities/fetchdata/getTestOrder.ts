@@ -1,5 +1,6 @@
 
 import { SampleOrder } from "../../components/TestOrder";
+import { TAOOrder } from "../../App";
 
 
 const getTestOrder = async (testOrder:SampleOrder)=> {
@@ -11,7 +12,7 @@ const getTestOrder = async (testOrder:SampleOrder)=> {
         body:JSON.stringify({'testOrder': testOrder})
       });
       if (response) {
-        const data: string[] = await response.json();
+        const data: TAOOrder[] = await response.json();
         return data
       }
       return []
