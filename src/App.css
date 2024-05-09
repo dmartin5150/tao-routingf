@@ -1,6 +1,8 @@
 .App {
   text-align: center;
   min-height: 100vh;
+  display:inline-block;
+  min-width: 100%;
 
 
   .App-header {
@@ -24,8 +26,9 @@
     /* display:flex;
     justify-content: center;
     align-items: center; */
-    margin: 5rem;
+    margin: 5rem 2rem;
     /* min-width: 80vw; */
+    width:100%;
   }
 
 }

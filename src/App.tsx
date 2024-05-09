@@ -160,10 +160,11 @@ function App() {
               assignedBucket={assignedBucket}
               onResultsChanged={handleDepartmentsChanged}
           />
-        </div>
         <div className='App-table'>
           {TAOResults.length !==0  && <TAOTable tableData={TAOResults} />}
         </div>
+        </div>
+
       </div>
 
     </div>
