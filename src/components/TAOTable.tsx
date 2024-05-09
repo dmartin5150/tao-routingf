@@ -25,6 +25,12 @@ const  TAOTable: FC<TAOTableProps> = ({tableData}) =>  {
   const data = tableData;
   const columns  = React.useMemo(
     () => [
+    {Header: "New",
+      Cell: (cell:Cell) => (
+        <button value={cell.row.values.name} onClick={() => handleClick(cell)}>
+          New
+        </button>
+  )},
     {Header: "Edit",
         Cell: (cell:Cell) => (
           <button value={cell.row.values.name} onClick={() => handleClick(cell)}>
@@ -39,7 +45,7 @@ const  TAOTable: FC<TAOTableProps> = ({tableData}) =>  {
 )},
       {
         Header: "TAO ID",
-        accessor: "taoid",
+        accessor: "taoID",
       },
       {
         Header: "Departments",

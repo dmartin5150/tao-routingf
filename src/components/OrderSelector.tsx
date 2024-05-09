@@ -32,6 +32,7 @@ const OrderSelector: FC<OrderSelectorProps> = ({id, name, isDisabled, options,on
     const handleChange = (newValue: SingleValue<SelectOptions>, actionMeta: ActionMeta<SelectOptions>) => {
         if(filterId !== 0) {
             setSelectedValue(newValue);
+            console.log('label', newValue?.label, 'value', newValue?.value)
             onResultsChanged(filterId, newValue);
         }
     };

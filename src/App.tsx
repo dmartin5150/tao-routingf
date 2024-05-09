@@ -150,17 +150,22 @@ function App() {
       <header className="App-header">
         <h1>TAO Routing</h1>
       </header>
-      <div className='App-panel'>
-          <TestOrder
-            id={1}
-            name={"Departments"}
-            isDisabled={false}
-            dropDowns={dropDowns}
-            assignedBucket={assignedBucket}
-            onResultsChanged={handleDepartmentsChanged}
-         />
+      <div className='App-body'>
+        <div className='App-panel'>
+            <TestOrder
+              id={1}
+              name={"Departments"}
+              isDisabled={false}
+              dropDowns={dropDowns}
+              assignedBucket={assignedBucket}
+              onResultsChanged={handleDepartmentsChanged}
+          />
         </div>
-        {TAOResults.length !==0  && <TAOTable tableData={TAOResults} />}
+        <div className='App-table'>
+          {TAOResults.length !==0  && <TAOTable tableData={TAOResults} />}
+        </div>
+      </div>
+
     </div>
   );
 }

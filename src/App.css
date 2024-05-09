@@ -7,10 +7,25 @@
     background-color: white;
   
   }
-  .App-panel {
+
+  .App-body {
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+
+  }
+  /* .App-panel {
     display:flex;
     align-items: center;
     justify-content: center;
+  } */
+
+  .App-table {
+    /* display:flex;
+    justify-content: center;
+    align-items: center; */
+    margin: 5rem;
+    /* min-width: 80vw; */
   }
 
 }
